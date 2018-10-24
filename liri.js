@@ -1,3 +1,10 @@
+require("dotenv").config({path: "./keys.env"});
+
+var keys = require("./keys.js");
+var Spotify = require("spotify");
+var fs = require("fs");
+
+
 var api_string = "";
 
 if(process.argv[2] == "concert-this")
@@ -7,8 +14,8 @@ if(process.argv[2] == "concert-this")
 else if(process.argv[2] == "spotify-this-song")
 {
     console.log("Spotify API");
-    remove_spaces(process.argv[3]);
-    console.log(api_string);
+    spotify_api();
+    
 
 }
 else if(process.argv[2] == "movie-this")
@@ -37,4 +44,31 @@ function remove_spaces(arg_string){
             api_string += "+" + arg_arry[i];
         }
     }
+}
+
+function spotify_api(){
+    remove_spaces(process.argv[3]);
+    console.log(api_string);
+
+    var spotify_keys = keys.spotify;
+    console.log(spotify_keys);
+
+    var spotify = new Spotify(keys.spotify);
+    
+    spotify.search({
+        type: "track",
+        query: api_string,
+        function(err,data) {
+            if(err)
+            {
+                console.log("Error occurred: " + err);
+                return;
+            }
+            else
+            {
+                console.log(data);
+            }
+        }
+    });
+    
 }
