@@ -1,7 +1,7 @@
 require("dotenv").config({path: "./keys.env"});
 
 var keys = require("./keys.js");
-var Spotify = require("spotify");
+var Spotify = require("node-spotify-api");
 var fs = require("fs");
 
 
@@ -57,18 +57,16 @@ function spotify_api(){
     
     spotify.search({
         type: "track",
-        query: api_string,
+        query: api_string},
         function(err,data) {
             if(err)
             {
                 console.log("Error occurred: " + err);
                 return;
-            }
-            else
-            {
-                console.log(data);
-            }
-        }
+            }    
+        debugger;
+        console.log(data.tracks.items[0]);
+        
     });
     
 }
