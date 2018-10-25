@@ -10,13 +10,11 @@ var api_string = "";
 if(process.argv[2] == "concert-this")
 {
     console.log("Bands in Town API")
+    band_town();
 }
 else if(process.argv[2] == "spotify-this-song")
 {
-    console.log("Spotify API");
     spotify_api();
-    
-
 }
 else if(process.argv[2] == "movie-this")
 {
@@ -47,6 +45,7 @@ function remove_spaces(arg_string){
 }
 
 function spotify_api(){
+    debugger;
     remove_spaces(process.argv[3]);
     console.log(api_string);
 
@@ -64,9 +63,21 @@ function spotify_api(){
                 console.log("Error occurred: " + err);
                 return;
             }    
-        debugger;
-        console.log(data.tracks.items[0]);
+    
+        for (var i = 0; i < data.tracks.items.length; i++)
+        {
+            var artist_api = data.tracks.items[i].artists[0].name;
+            var album_api = data.tracks.items[i].album.name;
+            var song_api = data.tracks.items[i].name;
+            var song_url_api = data.tracks.items[i].artists[0].external_urls.spotify;
+            
+            console.log("\nArtist(s): " + artist_api + "\nSong Name: " + song_api + "\nSpotify preview link: " + song_url_api + "\nAlbum: " + album_api);
+        }
         
     });
+    
+}
+
+function band_town(){
     
 }
