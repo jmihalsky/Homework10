@@ -13,7 +13,6 @@ var api_string = "";
 
 if(process.argv[2] == "concert-this")
 {
-    console.log("Bands in Town API")
     band_town();
 }
 else if(process.argv[2] == "spotify-this-song")
@@ -23,6 +22,7 @@ else if(process.argv[2] == "spotify-this-song")
 else if(process.argv[2] == "movie-this")
 {
     console.log("movie API");
+    omdb_api();
 }
 else if(process.argv[2] == "do-what-it-says")
 {
@@ -112,4 +112,34 @@ function band_town(){
             }
         }
     })
+}
+
+function omdb_api(){
+    remove_spaces(process.argv[3]);
+
+    var movie_api_url = "http://www.omdbapi.com/?t=" + api_string + "&y=&plot=short&apikey=trilogy";
+
+    request(movie_api_url,function(error,response,body) {
+        if(!error && response.statusCode === 200)
+        {
+            var movie_title = JSON.parse(body).title;
+            var movie_year = JSON.parse(body).year;
+            var imdb_rating = JSON.parse(body).imdbRating;
+            for (var i = 0; i < JSON.parse(body).Ratings.length; i++)
+            {
+                if (JSON.parse(body).Ratings[i].Source == "Rotten Tomatoes")
+                {
+                    var rottom_rating = JSON.parse(body).Ratings[i].Value;
+                }
+            }
+
+            var movie_coo = JSON.parse(body).Country;
+            var movie_lang = JSON.parse(body).Language;
+            var movie_plot = JSON.parse(body).Plot;
+            var movie_actors = JSON.parse(body).Actors;
+
+            console.log("\nMovie Title: " + movie_title + "\nMovie Release Year: " + movie_year + "\nIMDB Rating: " + imdb_rating + "\nRotten Tomatoes Rating: " + rottom_rating + "\nMovie Production Country: " + movie_coo + "\nMovie Language: " + movie_lang + "\nMovie Plot: " + movie_plot + "\nActors in the Movie: " + movie_actors);
+
+        }
+    });
 }
