@@ -338,7 +338,7 @@ function rtn_mnu(){
             default: true
         }
     ]).then(function(Rtn_menu){
-        if (Rtn_menu.rtn_menu.confirm)
+        if (Rtn_menu.rtn_menu)
         {
             inq_menu();
         }
